@@ -16,7 +16,10 @@ namespace MoNo.Bowling {
 
             this.OnBecameVisibleAsObservable()
                 .Take(1)
-                .Subscribe(_ => MoveStart())
+                .Subscribe(_ =>
+                {
+                    MoveStart();
+                } )
                 .AddTo(this);
 
         }
@@ -29,7 +32,7 @@ namespace MoNo.Bowling {
                 {
                     this.transform.position += Vector3.back * Time.fixedDeltaTime * movePower;
                     this.transform.rotation *= Quaternion.Euler(-1 * Time.fixedDeltaTime * rotatePower, 0, 0);
-                });
+                }).AddTo(this);
         }
     }
 }

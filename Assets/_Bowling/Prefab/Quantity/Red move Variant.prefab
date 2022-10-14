@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &890286442654232254
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7050304685665164208, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_text
+      value: "\xF74"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283574, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: _num
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283574, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: operations
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283575, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283575, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283575, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283575, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 62.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283575, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283575, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283575, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283575, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283575, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283575, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283575, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407329148962283723, guid: 806efec7eaadc4726b9148bb964a0093,
+        type: 3}
+      propertyPath: m_Name
+      value: Red move Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 806efec7eaadc4726b9148bb964a0093, type: 3}
+--- !u!23 &3226493081126167254 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2349788915541970024, guid: 806efec7eaadc4726b9148bb964a0093,
+    type: 3}
+  m_PrefabInstance: {fileID: 890286442654232254}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8716219671422914165 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8407329148962283723, guid: 806efec7eaadc4726b9148bb964a0093,
+    type: 3}
+  m_PrefabInstance: {fileID: 890286442654232254}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &955453045521947959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716219671422914165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed037101123fd4d59993d1c536822e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetRender: {fileID: 3226493081126167254}
+  movePower: 1
+  meter: 2

@@ -8,18 +8,19 @@ namespace MoNo.Bowling
 {
     public class MoveHorizonral : MonoBehaviour
     {
+        [SerializeField] Renderer _targetRender;
         [SerializeField] float movePower = 1.0f;
         [SerializeField] float meter = 4f;
 
         void Start()
         {
 
-            //this.OnBecameVisibleAsObservable()
-            //    .Take(1)
-            //    .Subscribe(_ => MoveStart())
-            //    .AddTo(this);
+            _targetRender.OnBecameVisibleAsObservable()
+                .Take(1)
+                .Subscribe(_ => {
+                    MoveStart(); })
+                .AddTo(this);
 
-            MoveStart();
         }
 
         void MoveStart()
@@ -41,7 +42,7 @@ namespace MoNo.Bowling
                     }
 
                     this.transform.position += dir * Time.fixedDeltaTime * movePower;
-                });
+                }).AddTo(this);
         }
     }
 }

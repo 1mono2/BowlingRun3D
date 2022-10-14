@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 8426131075756660097, guid: 6b2a5268d3af340e7834099650bca225,
         type: 3}
       propertyPath: m_Name
-      value: VarMoving
+      value: Blue move Variant
       objectReference: {fileID: 0}
     - target: {fileID: 8426131075756660097, guid: 6b2a5268d3af340e7834099650bca225,
         type: 3}
@@ -79,3 +79,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b2a5268d3af340e7834099650bca225, type: 3}
+--- !u!1 &3993396513270861735 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8426131075756660097, guid: 6b2a5268d3af340e7834099650bca225,
+    type: 3}
+  m_PrefabInstance: {fileID: 4865230554067376678}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3352974321969216873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3993396513270861735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed037101123fd4d59993d1c536822e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetRender: {fileID: 7159475702564365060}
+  movePower: 1
+  meter: 2
+--- !u!23 &7159475702564365060 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2368704637515839778, guid: 6b2a5268d3af340e7834099650bca225,
+    type: 3}
+  m_PrefabInstance: {fileID: 4865230554067376678}
+  m_PrefabAsset: {fileID: 0}

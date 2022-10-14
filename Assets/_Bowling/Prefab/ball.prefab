@@ -224,8 +224,10 @@ MonoBehaviour:
   _force: 1
   _radius: 2
   _upwards: 3
-  _acceleration: 5
+  _acceleration: 6
   _trailsPref: {fileID: 8619754432333846589, guid: fac60a34d53ef4945ac4f30736d8f14b,
+    type: 3}
+  _hitEffectPref: {fileID: 8389111961915173511, guid: bb488f33ed069434fa15abcf1cadcb39,
     type: 3}
 --- !u!114 &5461431260071391025
 MonoBehaviour:

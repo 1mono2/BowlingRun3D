@@ -15,10 +15,16 @@ namespace MoNo.Bowling
 
         private void Start()
         {
-            Reset();
+            DisplayOnPanel();
         }
 
         void Reset()
+        {
+            DisplayOnPanel();
+        }
+
+        [ContextMenu("DisplayOnPanel")]
+        void DisplayOnPanel()
         {
             quantity = GetComponent<OrganizeQuantity>();
             text = GetComponentInChildren<TextMeshPro>();
@@ -42,7 +48,6 @@ namespace MoNo.Bowling
                     break;
             }
         }
-
 
     }
 }
