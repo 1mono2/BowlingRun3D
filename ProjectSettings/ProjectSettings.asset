@@ -156,6 +156,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.MoNoProduction.BowlingRun3D
     Standalone: com.UnityTechnologies.com.unity.template-starter-kit
+    iPhone: com.MoNoProduction.BowlingRun3D
   buildNumber:
     Standalone: 0
     iPhone: 1
