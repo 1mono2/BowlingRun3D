@@ -35,9 +35,9 @@ namespace MoNo.Bowling
         [SerializeField] float _acceleration = 1;
 
         [SerializeField] ParticleSystem _trailsPref; 
-        [SerializeField] ParticleSystem _hitEffectPref; 
+        [SerializeField] ParticleSystem _hitEffectPref;
 
-        IDisposable accelerateDisposable;
+        IDisposable _accelerateDisposable;
 
         void Start()
         {
@@ -90,7 +90,7 @@ namespace MoNo.Bowling
                     .Subscribe(_ =>
                     {
                         trails.transform.DOMove(this.transform.position + new Vector3(0, 0, 2), 0);
-                    }).AddTo(this);
+                    }).AddTo(this).AddTo(trails.gameObject);
                 });
 
             _isCollision.Where(boolVal => boolVal == true)
@@ -115,20 +115,24 @@ namespace MoNo.Bowling
 
         void AccelerationStart()
         {
-            accelerateDisposable?.Dispose();
+            _accelerateDisposable?.Dispose();
             
-            accelerateDisposable = this.FixedUpdateAsObservable()
-                                        .Subscribe(_ => _rb.AddForce(Vector3.forward * _acceleration * Time.fixedDeltaTime , ForceMode.VelocityChange));
+            _accelerateDisposable = this.FixedUpdateAsObservable()
+                                        .Subscribe(_ => _rb.AddForce(Vector3.forward * _acceleration * Time.fixedDeltaTime , ForceMode.VelocityChange))
+                                        .AddTo(this);
             
 
         }
 
         void AccelerateStop()
         {
-            accelerateDisposable?.Dispose();
+            _accelerateDisposable?.Dispose();
         }
 
-
+        private void OnDestroy()
+        {
+            this.transform.DOKill();
+        }
 
     }
 }

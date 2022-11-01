@@ -15,13 +15,25 @@ MonoBehaviour:
   allPlacements:
   - placementName: AdMob Banner Ad
     adType: 0
-    androidAdUnitId: ca-app-pub-1767951001352951/1338633918
-    iOSAdUnitId: ca-app-pub-1767951001352951/9660441050
+    androidAdUnitId: ca-app-pub-1767951001352951/1125040175
+    iOSAdUnitId: ca-app-pub-1767951001352951/3232328769
     persistent: 1
     autoLoadEnabled: 1
   - placementName: AdMob Interstitial Ad
     adType: 1
-    androidAdUnitId: ca-app-pub-1767951001352951/7118810642
-    iOSAdUnitId: ca-app-pub-1767951001352951/9312539777
+    androidAdUnitId: ca-app-pub-1767951001352951/4971935787
+    iOSAdUnitId: ca-app-pub-1767951001352951/3786012478
+    persistent: 0
+    autoLoadEnabled: 1
+  - placementName: Test Banner Ad
+    adType: 0
+    androidAdUnitId: ca-app-pub-3940256099942544/6300978111
+    iOSAdUnitId: ca-app-pub-3940256099942544/2934735716
+    persistent: 1
+    autoLoadEnabled: 1
+  - placementName: Test Interstitial Ad
+    adType: 1
+    androidAdUnitId: ca-app-pub-3940256099942544/1033173712
+    iOSAdUnitId: ca-app-pub-3940256099942544/4411468910
     persistent: 0
     autoLoadEnabled: 1

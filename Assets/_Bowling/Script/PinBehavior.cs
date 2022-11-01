@@ -28,7 +28,7 @@ namespace MoNo.Bowling
 
         // field
         ReactiveProperty<PinBehaviorState> _pinBehaviorState = new ReactiveProperty<PinBehaviorState>(PinBehaviorState.Going);
-        readonly AsyncSubject<PinBehavior> _pinDeletedSubject = new AsyncSubject<PinBehavior>();
+        AsyncSubject<PinBehavior> _pinDeletedSubject = new AsyncSubject<PinBehavior>();
         ReactiveProperty<bool> _knocked = new ReactiveProperty<bool>(false);
         Rigidbody _rb;
         [SerializeField] Vector3 _centerOfMass = Vector3.zero;
@@ -167,6 +167,14 @@ namespace MoNo.Bowling
         private void OnDestroy()
         {
             _disposable?.Dispose();
+        }
+
+        public void ResetParam()
+        {
+            _pinBehaviorState.Value = PinBehaviorState.Going;
+            _pinDeletedSubject?.Dispose();
+            _pinDeletedSubject = new AsyncSubject<PinBehavior>();
+            _knocked.Value = false;
         }
 
     }

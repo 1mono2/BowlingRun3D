@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6bb06e5c4334e0cbbddcd92d5dfee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adUnitIdAndroid: ca-app-pub-1767951001352951/7118810642
-  adUnitIdiOS: ca-app-pub-1767951001352951/9312539777
+  adUnitIdAndroid: ca-app-pub-1767951001352951/4971935787
+  adUnitIdiOS: ca-app-pub-1767951001352951/3786012478
   OnAdLoaded:
     m_PersistentCalls:
       m_Calls: []
@@ -213,6 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20ab6de1265c4408f8addc81963e5b7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isShowAd: 1
 --- !u!4 &1275580895
 Transform:
   m_ObjectHideFlags: 0
@@ -259,8 +260,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   adType: 0
   selectedPlacementIndex: 0
-  androidAdUnitId: ca-app-pub-3940256099942544/6300978111
-  iOSAdUnitId: ca-app-pub-1767951001352951/9660441050
+  androidAdUnitId: ca-app-pub-1767951001352951/1125040175
+  iOSAdUnitId: ca-app-pub-1767951001352951/3232328769
   persistent: 1
   autoLoadEnabled: 1
   adSize:

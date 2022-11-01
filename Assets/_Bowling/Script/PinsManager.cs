@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Pool;
 using Rand = UnityEngine.Random;
 using UnityEngine.Events;
 using UniRx;
@@ -19,6 +20,8 @@ namespace MoNo.Bowling
         [HideInInspector] public ReactiveCollection<PinBehavior> knockedPins => _knockedPins;
         [HideInInspector] public ReactiveProperty<bool> isAllPinsKnocked => _isAllPinsKnocked;
         [HideInInspector] public int finalPinsNum => _finalPinsNum;
+        ObjectPool<PinBehavior> _pinPool;
+
 
         // field
         [SerializeField] PinBehavior _pinPrefab;
@@ -34,46 +37,54 @@ namespace MoNo.Bowling
 
         int LIMIT_PINS_NUM = 650;
 
-
-        public void StartObserveKnockedPin()
+        private void Start()
         {
-
-            // subscribe a function of adding to knocked pins list when pins're knocked down.
-            foreach (PinBehavior pin in _pins)
-            {
-                pin.knocked
-                    .Where(boolState => true == boolState)
-                    .Subscribe(boolState => { _knockedPins.Add(pin); }).AddTo(this).AddTo(pin);
-            }
-
-            _knockedPins.ObserveCountChanged()
-                .Subscribe(count =>
-                {
-                    if (count == _pins.Count)
+            _pinPool = new ObjectPool<PinBehavior>(
+                createFunc: () => Instantiate(_pinPrefab),
+                actionOnGet: target => {
+                    target.gameObject.SetActive(true);
+                    // Reset Pin's paramater
+                    target.ResetParam();
+                    // When unenable pin, Release() invoke.
+                    target.PinDeletedAsync.
+                        Subscribe(_target =>  _pinPool.Release(_target)).AddTo(this).AddTo(target);
+                    _pins.Add(target);
+                    // set name of pin
+                    if(target.name == _pinPrefab.name + "(Clone)")
                     {
-                        _isAllPinsKnocked.Value = true;
-                        Debug.Log("Exactly!!");
+                        target.name = _pinPool.CountAll.ToString();
                     }
-                }).AddTo(this);
-
-
+                },
+                actionOnRelease: target => {
+                    target.gameObject.SetActive(false);
+                    // remove pin instance from pinsList
+                    var pinIndex = _pins.ToList().FindIndex(pin => pin.Equals(target));
+                    _pins.Pop(pinIndex);
+                },
+                actionOnDestroy: target => Destroy(target),
+                collectionCheck: true,
+                defaultCapacity: 10,
+                maxSize: 1000);
         }
+
 
         public void GeneratePin(Vector3 where, Transform parent)
         {
             Vector3 pos = where + new Vector3(Rand.insideUnitCircle.x, 0, Rand.insideUnitCircle.y);
-            PinBehavior pin = Instantiate(_pinPrefab, pos, Quaternion.identity, parent);
-            pin.name = _pins.Count.ToString();
+            PinBehavior pin = _pinPool.Get();
+            //pin = Instantiate(_pinPrefab, pos, Quaternion.identity, parent);
+            pin.transform.position = pos;
+            pin.transform.SetParent(parent);
 
             // a system when pin's deleted.
-            pin.PinDeletedAsync
-                .Subscribe(pinBehavior =>
-                {
-                    var pinIndex = _pins.ToList().FindIndex(pin => pin.Equals(pinBehavior));
-                    _pins.Pop(pinIndex);
-                    //Debug.Log($"Pin's name:" + pinBehavior.name + ", index:" + pinIndex);
-                }).AddTo(pin).AddTo(this);
-            _pins.Add(pin);
+            //pin.PinDeletedAsync
+            //    .Subscribe(pinBehavior =>
+            //    {
+            //        var pinIndex = _pins.ToList().FindIndex(pin => pin.Equals(pinBehavior));
+            //        _pins.Pop(pinIndex);
+            //        //Debug.Log($"Pin's name:" + pinBehavior.name + ", index:" + pinIndex);
+            //    }).AddTo(pin).AddTo(this);
+            //_pins.Add(pin);
         }
 
         public void DeletePinFromFirst()
@@ -82,8 +93,9 @@ namespace MoNo.Bowling
             {
                 return;
             }
-            var firstPin = _pins.Pop();
-            Destroy(firstPin.gameObject);
+            var firstPin = _pins.Peek();
+            //Destroy(firstPin.gameObject);
+            _pinPool.Release(firstPin);
 
         }
 
@@ -114,8 +126,9 @@ namespace MoNo.Bowling
                 {
 
                     PinBehavior removePin =  _pins[i];
-                    Destroy(removePin.gameObject);
-                    _pins.RemoveAt(i);
+                    //Destroy(removePin.gameObject);
+                    //_pins.RemoveAt(i);
+                    _pinPool.Release(removePin);
                 }
             }
         }
@@ -234,68 +247,35 @@ namespace MoNo.Bowling
             AllChangeStateInOrderToBowling();
         }
 
-        public async void StartKnockingPin()
+
+        public void StartObserveKnockedPin()
         {
-            List<PinBehavior> tempPins = new List<PinBehavior>(_pins);
-            List<List<PinBehavior>> line = new List<List<PinBehavior>>();
-            // untill 4 rows
-            for (int i = 0; i <= 4; i++)
-            {
-                var innerLine = new List<PinBehavior>();
-                for (int j = 0; j <= i; j++)
-                {
-                    if (!tempPins.Any()) { break; }
-                    var currentPins = tempPins.Pop();
-                    innerLine.Add(currentPins);
-                }
 
-                if (!innerLine.Any()) { break; }
-                line.Add(innerLine);
+            // subscribe a function of adding to knocked pins list when pins're knocked down.
+            foreach (PinBehavior pin in _pins)
+            {
+                pin.knocked
+                    .Where(boolState => true == boolState)
+                    .Subscribe(boolState => { _knockedPins.Add(pin); }).AddTo(this).AddTo(pin);
             }
 
-            // later 5 rows
-            for (int i = 5; i < 100; i++)
-            {
-                var innerLine = new List<PinBehavior>();
-                if (i % 2 == 0) // even
+            _knockedPins.ObserveCountChanged()
+                .Subscribe(count =>
                 {
-                    for (int j = 0; j <= 6; j++)
+                    if (count == _pins.Count)
                     {
-                        if (!tempPins.Any()) { break; }
-                        var currentPins = tempPins.Pop();
-                        innerLine.Add(currentPins);
+                        _isAllPinsKnocked.Value = true;
+                        Debug.Log("Exactly!!");
                     }
+                }).AddTo(this);
 
-                    if (!innerLine.Any()) { break; }
-                    line.Add(innerLine);
-                }
-                else // odd
-                {
-                    for (int j = 0; j <= 5; j++)
-                    {
-                        if (!tempPins.Any()) { break; }
-                        var currentPins = tempPins.Pop();
-                        innerLine.Add(currentPins);
-                    }
-
-                    if (!innerLine.Any()) { break; }
-                    line.Add(innerLine);
-                }
-            }
-
-            if (line.Count > 5)
-            {
-                for(int i = 5; i < line.Count; i++)
-                {
-                    foreach(PinBehavior pin in line[i])
-                    {
-                        var temprb = pin.gameObject.GetComponent<Rigidbody>();
-                        temprb.AddForce(Vector3.forward * 5, ForceMode.Impulse);
-                    }
-                    await UniTask.Delay(System.TimeSpan.FromMilliseconds(1000));
-                }
-            }
 
         }
+
+        private void OnDestroy()
+        {
+            _pinPool.Clear();
+        }
+
     }
 }

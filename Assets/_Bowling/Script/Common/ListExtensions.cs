@@ -11,7 +11,8 @@ public static class ListExtensions
     }
 
     /// <summary>
-    /// 先頭にあるオブジェクトを削除し、返します
+    /// 先頭にあるオブジェクトを削除し、返します.
+    /// 引数のindexを入れた場合、indexで指定したオブジェクトを削除して、返します・
     /// </summary>
     public static T Pop<T>(this IList<T> self, int index = 0)
     {

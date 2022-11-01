@@ -17,7 +17,6 @@ namespace MoNo.Bowling
 
 
         IDisposable _disposableChase;
-        Tweener _shakeTweener;
         Tweener _shakeRotationTweener;
 
 
@@ -66,35 +65,13 @@ namespace MoNo.Bowling
                 });
 
 
-                    //bowlingBallBehavior.isCollision
-                    //    .Where(isCollision => isCollision == true)
-                    //    .Subscribe(_ =>
-                    //    {
-                    //        // finish chasing ball
-                    //        disposableChase?.Dispose();
-
-                    //        // start to chase being knocked pins
-                    //        //mainCam.transform.DOLocalMove(new Vector3(0, 2, -2), 0.3f).SetRelative(true);
-                    //        //mainCam.transform.DOLocalRotate(new Vector3(15, 0, 0) , 0.3f).SetRelative(true);
-
-                    //        var pinsCount = this.pinsManager.pins.Count;
-                    //        float multiply = pinsCount / 15;
-                    //        float duration = 1f;
-                    //        mainCam.transform.DOLocalMove(Vector3.forward * .8f * multiply, duration * multiply).SetRelative(true);
-
-                    //    });
-
-
         }
 
         public void ShakeCamera()
         {
-            
-            _shakeTweener?.Kill();
+
             _shakeRotationTweener?.Kill();
 
-            _shakeTweener = mainCam.DOShakePosition(_duration, _strength, _vibrato)
-                                    .SetRelative(true);
             _shakeRotationTweener = mainCam.DOShakeRotation(_duration, _strength, _vibrato)
                                             .SetRelative(true);
         }
@@ -103,6 +80,7 @@ namespace MoNo.Bowling
         private void OnDestroy()
         {
             _disposableChase?.Dispose();
+            _shakeRotationTweener?.Kill();
         }
 
     }
