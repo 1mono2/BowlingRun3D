@@ -10,13 +10,18 @@ using MyUtility;
 
 namespace MoNo.Bowling
 {
-    public class LoadData : MonoBehaviour
+    public class LoadData : SingletonMonoBehaviour<LoadData> 
     {
 
+        [SerializeField] bool _isShowAd = true;
+        public bool isShowAd => _isShowAd;
         const string SAVE_STAGE_INDEX = "StageIndex";
 
-        private void Awake()
+        protected override bool DontDestroy => true;
+
+        protected override void Awake()
         {
+            base.Awake();
             //MobileAds.Initialize(initStatus => { });
 
 #if UNITY_IOS
@@ -120,7 +125,7 @@ namespace MoNo.Bowling
 
         void RequestAds()
         {
-
+            if (_isShowAd == false) return;
             // banner is shown.
             BannerAdGameObject bannerAd = MobileAds.Instance.GetAd<BannerAdGameObject>("BannerAd");
             bannerAd.LoadAd();

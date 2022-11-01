@@ -21,7 +21,6 @@ namespace MoNo.Bowling
                     if(collider.TryGetComponent<PinBehavior>(out pin))
                     {
                         pin.DeleteThis();
-                        Destroy(pin.gameObject);
                     }
                 });
 

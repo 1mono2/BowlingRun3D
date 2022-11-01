@@ -212,8 +212,7 @@ namespace MoNo.Bowling
                 .Where(boolVal => boolVal == true)
                 .Subscribe(_ =>
                 {
-                    // have a bug.
-                    //mainCamBehavior.ShakeCamera();
+                    mainCamBehavior.ShakeCamera();
                 });
 
 
@@ -329,14 +328,19 @@ namespace MoNo.Bowling
 
         void OnResult()
         {
-            if (PlayerPrefs.HasKey(SAVE_STAGE_INDEX))
-            {
-                PlayerPrefs.SetInt(SAVE_STAGE_INDEX, SceneManager.GetActiveScene().buildIndex);
-            }
+            PlayerPrefs.SetInt(SAVE_STAGE_INDEX, SceneManager.GetActiveScene().buildIndex);
+            
 
             var resultScoreCount = pinsManager.knockedPins.Count;
             resultCanvas.gameObject.SetActive(true);
-            resultCanvas.nextLevelButtonAction += ShowAds;
+            if (LoadData.I.isShowAd == true)
+            {
+                resultCanvas.nextLevelButtonAction += ShowAds;
+            }
+            else
+            {
+                resultCanvas.nextLevelButtonAction += NextStage;
+            }
         }
 
         void ShowAds()
@@ -360,9 +364,13 @@ namespace MoNo.Bowling
                 nextStageIndex = 1;  // Return the First Stage without Preload
             }
 
-
             SceneManager.LoadScene(nextStageIndex);
 
+        }
+
+        private void OnDestroy()
+        {
+            this.transform.DOKill();
         }
     }
 }
