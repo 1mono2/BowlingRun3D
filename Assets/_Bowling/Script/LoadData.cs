@@ -5,7 +5,8 @@ using GoogleMobileAds.Common;
 using GoogleMobileAds.Placement;
 using Facebook.Unity;
 using System;
-using MyUtility;
+//using MyUtility;
+using MoNo.Utility;
 
 
 namespace MoNo.Bowling
@@ -22,60 +23,25 @@ namespace MoNo.Bowling
         protected override void Awake()
         {
             base.Awake();
-            //MobileAds.Initialize(initStatus => { });
 
-#if UNITY_IOS
-            int status = ATTUtili.GetTrackingAuthorizationStatus();
-            Debug.Log("ATT状態 = " + status);
-            // ATT状態は4択
-            // ATTrackingManagerAuthorizationStatusNotDetermined = 0
-            // ATTrackingManagerAuthorizationStatusRestricted    = 1
-            // ATTrackingManagerAuthorizationStatusDenied        = 2
-            // ATTrackingManagerAuthorizationStatusAuthorized    = 3
-            if (status == 0)
-            {
-                // ATT設定可能 & 未承認なのでATT承認要求アラートを表示
-                ATTUtili.RequestTrackingAuthorization(CallbackFunction);
-            }
-            else
-            {
-                if (status == 1 || status == 2)
-                {
-                    // ATT設定不可なので、ATT承認が必要になる旨をユーザーに伝える
+# if UNITY_IOS
+            AppTrackingTranceparencyCheck att = new AppTrackingTranceparencyCheck();
+            StartCoroutine(att.Check());
+#endif
 
-                }
-                else if (status == 3)
-                {
-                    FB.Init(this.OnInitComplete, this.OnHideUnity);
-                }
-                // Google Mobile Ads SDK を初期化
-                MobileAds.Initialize(initStatus =>
-                {
+            // Facebook
+            //FB.Init(this.OnInitComplete);
+            // Google Admob
+            MobileAds.Initialize(initStatus =>
+            {
                 // AdMobからのコールバックはメインスレッドで呼び出される保証がないため、次のUpdate()で呼ばれるようにMobileAdsEventExecutorを使用
                 MobileAdsEventExecutor.ExecuteInUpdate(() =>
-                    {
+                {
                     // バナーをリクエスト
                     RequestAds();
-                    });
                 });
-            }
-
-#elif UNITY_ANDROID
-        MobileAds.Initialize(initStatus =>
-        {
-            // AdMobからのコールバックはメインスレッドで呼び出される保証がないため、次のUpdate()で呼ばれるようにMobileAdsEventExecutorを使用
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
-            {
-                // バナーをリクエスト
-                RequestAds();
             });
-        });
-#endif
-        }
 
-        private void OnHideUnity(bool isUnityShown)
-        {
-            throw new NotImplementedException();
         }
 
         private void OnInitComplete()
@@ -95,41 +61,12 @@ namespace MoNo.Bowling
             }
         }
 
-        void CallbackFunction(int status)
-        {
-            Debug.Log("ATT最新状況 --> " + status);
-            // ATTの状況を待ってから Google Mobile Ads SDK を初期化
-            MobileAds.Initialize(initStatus =>
-            {
-                // AdMobからのコールバックはメインスレッドで呼び出される保証がないため、次のUpdate()で呼ばれるようにMobileAdsEventExecutorを使用
-                MobileAdsEventExecutor.ExecuteInUpdate(() =>
-                {
-                    // バナーをリクエスト
-                    RequestAds();
-                });
-            });
-
-            // Facebook SDK
-            if (status == 1 || status == 2)
-            {
-                // ATT設定不可なので、ATT承認が必要になる旨をユーザーに伝える
-
-                FB.Init(this.OnInitComplete, this.OnHideUnity);
-            }
-            else if (status == 3)
-            {
-
-                FB.Init(this.OnInitComplete, this.OnHideUnity);
-            }
-        }
-
         void RequestAds()
         {
             if (_isShowAd == false) return;
             // banner is shown.
             BannerAdGameObject bannerAd = MobileAds.Instance.GetAd<BannerAdGameObject>("BannerAd");
             bannerAd.LoadAd();
-            //bannerAd.Show();
             
         }
 

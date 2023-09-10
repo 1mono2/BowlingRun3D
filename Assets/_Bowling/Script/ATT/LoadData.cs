@@ -6,6 +6,7 @@ using GoogleMobileAds.Placement;
 using Facebook.Unity;
 using System;
 using MyUtility;
+using MoNo.Utility;
 
 public class LoadData : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class LoadData : MonoBehaviour
 
     private void Awake()
     {
+
+        MoNo.Utility.AppTrackingTranceparencyCheck att = new MoNo.Utility.AppTrackingTranceparencyCheck();
+        StartCoroutine( att.Check());
         //MobileAds.Initialize(initStatus => { });
 
 #if UNITY_IOS

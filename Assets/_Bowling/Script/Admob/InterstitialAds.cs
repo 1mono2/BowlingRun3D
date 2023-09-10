@@ -26,7 +26,6 @@ namespace MyUtility
         public Provider OnAdFailedToLoad;
         public Provider OnAdOpening;
         public Provider OnAdClosed;
-        public Provider OnAdLeavingApplication;
 
         const string SAVE_PURCHASING_AD_FLAG = "PurchasingAdFlag"; // 1:purshased 0: NOT purchased
 
@@ -91,7 +90,6 @@ namespace MyUtility
             this.interstitialAd.OnAdFailedToLoad += HandleOnAdFailedToLoad;
             this.interstitialAd.OnAdOpening += HandleOnAdOpening;
             this.interstitialAd.OnAdClosed += HandleOnAdClosed;
-            this.interstitialAd.OnAdLeavingApplication += HandleOnAdLeavingApplication;
 
         }
 
@@ -127,12 +125,6 @@ namespace MyUtility
             CreateAndLoadRewardAd();
         }
 
-        private void HandleOnAdLeavingApplication(object sender, EventArgs args)
-        {
-            OnAdLeavingApplication.Invoke();
-            Debug.Log("User leave app");
-        }
-
 
 
 
@@ -142,7 +134,6 @@ namespace MyUtility
             this.interstitialAd.OnAdFailedToLoad -= HandleOnAdFailedToLoad;
             this.interstitialAd.OnAdOpening -= HandleOnAdOpening;
             this.interstitialAd.OnAdClosed -= HandleOnAdClosed;
-            this.interstitialAd.OnAdLeavingApplication -= HandleOnAdLeavingApplication;
 
         }
 
